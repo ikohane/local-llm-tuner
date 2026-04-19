@@ -179,8 +179,8 @@ print(gaps["severity"], gaps["section_gaps"])
 
 ## Failover cascade (v0.2.0+)
 
-If your local LLM sometimes fails — Ollama timeout, attic unreachable,
-Gemma4 thinking-mode starves the budget — you can cascade to a hosted model:
+If your local LLM sometimes fails — Ollama timeout, attic (the nanme of my 2021 Macbook Pro running Gemma on my home LAN)
+unreachable, Gemma4 thinking-mode starves the budget — you can cascade to a hosted model  but your text will **no longer be private**:
 
 ```python
 from local_llm_tuner import (
