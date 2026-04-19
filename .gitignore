@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Secrets
+.env
+
+# Harness outputs (example + your own runs)
+out/
+**/out/
+examples/**/out/
+
+# Local gold-standard corpora (they're not the repo's to ship)
+examples/**/gold_reviews/
+examples/**/submissions/
+examples/**/manuscripts/
+
+# OS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
