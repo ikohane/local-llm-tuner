@@ -177,6 +177,39 @@ gaps, _ = compare(
 print(gaps["severity"], gaps["section_gaps"])
 ```
 
+## Failover cascade (v0.2.0+)
+
+If your local LLM sometimes fails — Ollama timeout, attic unreachable,
+Gemma4 thinking-mode starves the budget — you can cascade to a hosted model:
+
+```python
+from local_llm_tuner import (
+    OllamaClient, OpenAIClient, CascadingLLMClient, DocumentHarness,
+)
+
+primary = OllamaClient(model="gemma4:26b")
+fallback = OpenAIClient(model="gpt-5.4-mini")  # reads OPENAI_API_KEY
+
+client = CascadingLLMClient(
+    [primary, fallback],
+    on_fallback=lambda i, err, backend: print(f"  ↪ fell back to {backend}: {err}"),
+)
+
+harness = DocumentHarness(llm_client=client, ...)  # same as before
+```
+
+Each `.chat()` call tries Ollama first. If it raises, or (by default)
+returns empty content — the canonical Gemma4-thinking-starvation failure
+from `docs/gemma4_thinking_mode_case_study.md` — the cascade advances to
+OpenAI for that call only. The returned `stats["cascade_used_backend"]`
+tells you which client actually served each chunk.
+
+Flags:
+- `treat_empty_as_failure=False` — keep empty content instead of
+  advancing (default is True).
+- `on_fallback=callable` — invoked on each fallback event for logging
+  or metrics.
+
 ## Plugging in your own local model
 
 Anything with a `.chat(user, *, system, schema, temperature)` method works.

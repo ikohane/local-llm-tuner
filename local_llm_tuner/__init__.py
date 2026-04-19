@@ -18,7 +18,7 @@ Public entry points:
     from local_llm_tuner.frontier import AnthropicClient
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from .core import (
     DocumentHarness,
@@ -27,6 +27,8 @@ from .core import (
     run_document,
 )
 from .ollama_client import OllamaClient
+from .openai_client import OpenAIClient
+from .cascading import CascadingLLMClient
 from .frontier import AnthropicClient, synthesize, compare
 from .search import SearchBackend, NullSearch
 
@@ -36,6 +38,8 @@ __all__ = [
     "merge_update",
     "run_document",
     "OllamaClient",
+    "OpenAIClient",
+    "CascadingLLMClient",
     "AnthropicClient",
     "synthesize",
     "compare",
