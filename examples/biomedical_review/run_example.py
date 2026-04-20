@@ -72,6 +72,36 @@ def main() -> None:
     ap.add_argument("--ollama-model", default=None)
     args = ap.parse_args()
 
+    if not args.input.exists():
+        # Friendly error pointing at the shipped sample files rather than a
+        # bare FileNotFoundError from the text extractor.
+        here = Path(__file__).parent
+        shipped = here / "sample_manuscript.txt"
+        gold = here / "sample_gold_review.md"
+        msg = [f"Input file not found: {args.input}"]
+        if shipped.exists():
+            msg.append("")
+            msg.append("This example ships with a ready-to-use sample:")
+            msg.append(f"  {shipped}")
+            if gold.exists():
+                msg.append(f"  {gold}  (gold review for --gold)")
+            msg.append("")
+            msg.append("Try:")
+            msg.append(f"  cd {here}")
+            msg.append(f"  python run_example.py sample_manuscript.txt --gold sample_gold_review.md")
+        else:
+            msg.append(
+                "(expected sample_manuscript.txt in this directory — "
+                "re-clone the repo or run `git checkout -- sample_manuscript.txt`)"
+            )
+        print("\n".join(msg), file=sys.stderr)
+        sys.exit(1)
+
+    if args.gold and not args.gold.exists():
+        print(f"Gold review file not found: {args.gold}", file=sys.stderr)
+        print("Continuing without comparison (--gold ignored).", file=sys.stderr)
+        args.gold = None
+
     doc_id = args.doc_id or args.input.stem
     doc_out = args.out_dir / doc_id
     doc_out.mkdir(parents=True, exist_ok=True)

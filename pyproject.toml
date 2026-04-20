@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "local-llm-tuner"
-version = "0.2.0"
+version = "0.2.1"
 description = "Agentic harness for iteratively improving a local LLM's structured-output quality, scored against a frontier-model gold standard."
 readme = "README.md"
 requires-python = ">=3.10"

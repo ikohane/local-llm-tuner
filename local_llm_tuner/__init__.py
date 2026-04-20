@@ -18,7 +18,7 @@ Public entry points:
     from local_llm_tuner.frontier import AnthropicClient
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 from .core import (
     DocumentHarness,
